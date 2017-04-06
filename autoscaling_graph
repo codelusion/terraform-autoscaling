@@ -1,0 +1,114 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" [label = "module.auto_scaling.aws_autoscaling_group.ms_asg", shape = "box"]
+		"[root] module.auto_scaling.provider.aws" [label = "module.auto_scaling.provider.aws", shape = "diamond"]
+		"[root] module.elb.aws_elb.ms_elb" [label = "module.elb.aws_elb.ms_elb", shape = "box"]
+		"[root] module.elb.provider.aws" [label = "module.elb.provider.aws", shape = "diamond"]
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" [label = "module.launch_config.aws_launch_configuration.ms_launch_cfg", shape = "box"]
+		"[root] module.launch_config.data.template_file.userdata_file" [label = "module.launch_config.data.template_file.userdata_file", shape = "box"]
+		"[root] module.launch_config.provider.aws" [label = "module.launch_config.provider.aws", shape = "diamond"]
+		"[root] module.launch_config.provider.template" [label = "module.launch_config.provider.template", shape = "diamond"]
+		"[root] module.s3.aws_s3_bucket.codebucket" [label = "module.s3.aws_s3_bucket.codebucket", shape = "box"]
+		"[root] module.s3.aws_s3_bucket_object.code-zip" [label = "module.s3.aws_s3_bucket_object.code-zip", shape = "box"]
+		"[root] module.s3.provider.aws" [label = "module.s3.provider.aws", shape = "diamond"]
+		"[root] module.scale_up_policy.aws_autoscaling_notification.asg_notify" [label = "module.scale_up_policy.aws_autoscaling_notification.asg_notify", shape = "box"]
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" [label = "module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple", shape = "box"]
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" [label = "module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg", shape = "box"]
+		"[root] module.scale_up_policy.aws_sns_topic.sns_asg" [label = "module.scale_up_policy.aws_sns_topic.sns_asg", shape = "box"]
+		"[root] module.scale_up_policy.provider.aws" [label = "module.scale_up_policy.provider.aws", shape = "diamond"]
+		"[root] module.sec_group.aws_security_group.ms_sg" [label = "module.sec_group.aws_security_group.ms_sg", shape = "box"]
+		"[root] module.sec_group.provider.aws" [label = "module.sec_group.provider.aws", shape = "diamond"]
+		"[root] provider.aws (disabled)" [label = "provider.aws", shape = "diamond"]
+		"[root] provider.template (disabled)" [label = "provider.template", shape = "diamond"]
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.provider.aws"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.asg_desired"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.asg_elb_name"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.asg_launch_config_id"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.asg_max"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.asg_min"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.asg_name"
+		"[root] module.auto_scaling.aws_autoscaling_group.ms_asg" -> "[root] module.auto_scaling.var.availability_zones"
+		"[root] module.auto_scaling.output.asg_id" -> "[root] module.auto_scaling.aws_autoscaling_group.ms_asg"
+		"[root] module.auto_scaling.output.asg_name" -> "[root] module.auto_scaling.aws_autoscaling_group.ms_asg"
+		"[root] module.auto_scaling.provider.aws" -> "[root] provider.aws (disabled)"
+		"[root] module.auto_scaling.var.asg_elb_name" -> "[root] module.elb.output.ms_elb_name"
+		"[root] module.auto_scaling.var.asg_launch_config_id" -> "[root] module.launch_config.output.ms_launch_config_id"
+		"[root] module.elb.aws_elb.ms_elb" -> "[root] module.elb.provider.aws"
+		"[root] module.elb.aws_elb.ms_elb" -> "[root] module.elb.var.availability_zones"
+		"[root] module.elb.aws_elb.ms_elb" -> "[root] module.elb.var.elb_instance_port"
+		"[root] module.elb.aws_elb.ms_elb" -> "[root] module.elb.var.elb_name"
+		"[root] module.elb.output.ms_elb_name" -> "[root] module.elb.aws_elb.ms_elb"
+		"[root] module.elb.output.ms_elb_url" -> "[root] module.elb.aws_elb.ms_elb"
+		"[root] module.elb.provider.aws" -> "[root] provider.aws (disabled)"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.data.template_file.userdata_file"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.provider.aws"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.aws_amis"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.aws_region"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.instance_type"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.launch_cfg_keypair_name"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.launch_cfg_name"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.launch_cfg_sg_id"
+		"[root] module.launch_config.aws_launch_configuration.ms_launch_cfg" -> "[root] module.launch_config.var.launch_instance_role"
+		"[root] module.launch_config.data.template_file.userdata_file" -> "[root] module.launch_config.provider.template"
+		"[root] module.launch_config.data.template_file.userdata_file" -> "[root] module.launch_config.var.code_zipfile"
+		"[root] module.launch_config.data.template_file.userdata_file" -> "[root] module.launch_config.var.service_name"
+		"[root] module.launch_config.output.ms_launch_config_id" -> "[root] module.launch_config.aws_launch_configuration.ms_launch_cfg"
+		"[root] module.launch_config.provider.aws" -> "[root] provider.aws (disabled)"
+		"[root] module.launch_config.provider.template" -> "[root] provider.template (disabled)"
+		"[root] module.launch_config.var.code_zipfile" -> "[root] var.s3_code_bucketname"
+		"[root] module.launch_config.var.code_zipfile" -> "[root] var.s3_code_keyname"
+		"[root] module.launch_config.var.launch_cfg_keypair_name" -> "[root] var.key_name"
+		"[root] module.launch_config.var.launch_cfg_sg_id" -> "[root] module.sec_group.output.ms_sg_id"
+		"[root] module.launch_config.var.launch_instance_role" -> "[root] var.instance_role"
+		"[root] module.launch_config.var.service_name" -> "[root] var.service_name"
+		"[root] module.s3.aws_s3_bucket.codebucket" -> "[root] module.s3.provider.aws"
+		"[root] module.s3.aws_s3_bucket.codebucket" -> "[root] module.s3.var.code_bucketname"
+		"[root] module.s3.aws_s3_bucket_object.code-zip" -> "[root] module.s3.aws_s3_bucket.codebucket"
+		"[root] module.s3.aws_s3_bucket_object.code-zip" -> "[root] module.s3.var.code_filename"
+		"[root] module.s3.aws_s3_bucket_object.code-zip" -> "[root] module.s3.var.code_keyname"
+		"[root] module.s3.output.s3_codebucket" -> "[root] module.s3.aws_s3_bucket.codebucket"
+		"[root] module.s3.output.s3_codebucket_keyname" -> "[root] module.s3.aws_s3_bucket_object.code-zip"
+		"[root] module.s3.provider.aws" -> "[root] provider.aws (disabled)"
+		"[root] module.s3.var.code_bucketname" -> "[root] var.s3_code_bucketname"
+		"[root] module.s3.var.code_keyname" -> "[root] var.s3_code_keyname"
+		"[root] module.scale_up_policy.aws_autoscaling_notification.asg_notify" -> "[root] module.scale_up_policy.aws_sns_topic.sns_asg"
+		"[root] module.scale_up_policy.aws_autoscaling_notification.asg_notify" -> "[root] module.scale_up_policy.var.asg_name"
+		"[root] module.scale_up_policy.aws_autoscaling_notification.asg_notify" -> "[root] module.scale_up_policy.var.notifications"
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" -> "[root] module.scale_up_policy.provider.aws"
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" -> "[root] module.scale_up_policy.var.adjustment_type"
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" -> "[root] module.scale_up_policy.var.asg_name"
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" -> "[root] module.scale_up_policy.var.cooldown"
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" -> "[root] module.scale_up_policy.var.policy_name"
+		"[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple" -> "[root] module.scale_up_policy.var.scaling_adjustment"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.aws_autoscaling_policy.asg_policy_simple"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.comparison_operator"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.evaluation_periods"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.metric_name"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.name_space"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.period"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.statistic"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.threshold"
+		"[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg" -> "[root] module.scale_up_policy.var.valid_statistics"
+		"[root] module.scale_up_policy.aws_sns_topic.sns_asg" -> "[root] module.scale_up_policy.provider.aws"
+		"[root] module.scale_up_policy.aws_sns_topic.sns_asg" -> "[root] module.scale_up_policy.var.policy_name"
+		"[root] module.scale_up_policy.output.sns_arn" -> "[root] module.scale_up_policy.aws_sns_topic.sns_asg"
+		"[root] module.scale_up_policy.provider.aws" -> "[root] provider.aws (disabled)"
+		"[root] module.scale_up_policy.var.asg_name" -> "[root] module.auto_scaling.output.asg_name"
+		"[root] module.scale_up_policy.var.policy_name" -> "[root] var.service_name"
+		"[root] module.sec_group.aws_security_group.ms_sg" -> "[root] module.sec_group.provider.aws"
+		"[root] module.sec_group.output.ms_sg_id" -> "[root] module.sec_group.aws_security_group.ms_sg"
+		"[root] module.sec_group.provider.aws" -> "[root] provider.aws (disabled)"
+		"[root] output.elb_url" -> "[root] module.elb.output.ms_elb_url"
+		"[root] provider.aws (disabled)" -> "[root] var.aws_region"
+		"[root] root" -> "[root] module.auto_scaling.output.asg_id"
+		"[root] root" -> "[root] module.s3.output.s3_codebucket"
+		"[root] root" -> "[root] module.s3.output.s3_codebucket_keyname"
+		"[root] root" -> "[root] module.scale_up_policy.aws_autoscaling_notification.asg_notify"
+		"[root] root" -> "[root] module.scale_up_policy.aws_cloudwatch_metric_alarm.monitor_asg"
+		"[root] root" -> "[root] module.scale_up_policy.output.sns_arn"
+		"[root] root" -> "[root] output.elb_url"
+	}
+}
+
