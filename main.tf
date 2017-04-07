@@ -2,11 +2,7 @@
 
 terraform {
   required_version = "> 0.8.0"
-  backend "s3" {
-    bucket = "n9-terraform-autoscaling"
-    key    = "terraform_state"
-    region = "us-west-2"
-  }
+  # store state in S3 bucket
 }
 
 
@@ -15,13 +11,18 @@ provider "aws" {
   region = "${var.aws_region}"
 }
 
+resource aws_key_pair "hit_counter_key" {
+  key_name = "hit-counter-key"
+  public_key = "${var.public_key}"
+}
+
 module "sec_group" {
   source = "sec_group"
 }
 
 module "s3" {
   source = "s3"
-  code_filename = "files/fakems.zip"
+  code_filename = "files/hit-counter-master.zip"
   code_bucketname = "${var.s3_code_bucketname}"
   code_keyname = "${var.s3_code_keyname}"
 }
@@ -29,23 +30,22 @@ module "s3" {
 
 module "launch_config" {
   source = "launch_config"
-  launch_cfg_name = "fakems_launch_cfg"
+  launch_cfg_name = "ms_launch_cfg"
   launch_cfg_sg_id = "${module.sec_group.ms_sg_id}"
-  launch_cfg_keypair_name = "${var.key_name}"
-  launch_instance_role = "${var.instance_role}"
+  launch_cfg_keypair_name = "${aws_key_pair.hit_counter_key.key_name}"
   code_zipfile = "${var.s3_code_bucketname}/${var.s3_code_keyname}"
   service_name = "${var.service_name}"
 }
 
 module "elb" {
   source = "elastic_loadbalancer"
-  elb_name = "fakems-elb"
+  elb_name = "ms-elb"
   elb_instance_port = "3000"
 }
 
 module "auto_scaling" {
   source = "autoscaling_group"
-  asg_name = "fakems_asg"
+  asg_name = "ms_asg"
   asg_launch_config_id = "${module.launch_config.ms_launch_config_id}"
   asg_elb_name = "${module.elb.ms_elb_name}"
   asg_min = "1"
@@ -55,7 +55,8 @@ module "auto_scaling" {
 
 ## Provisions autoscaling policies and associated resources
 module "scale_up_policy" {
-  #source = "github.com/unifio/terraform-aws-asg//policy"
+
+  # ASG Policy setup from "github.com/unifio/terraform-aws-asg/policy"
   source = "policy"
 
   # Resource tags
@@ -75,10 +76,8 @@ module "scale_up_policy" {
   metric_name         = "CPUUtilization"
   period              = 60
   scaling_adjustment  = 1
-  threshold           = 50
+  threshold           = 80
 }
-
-
 
 
 output "elb_url" {

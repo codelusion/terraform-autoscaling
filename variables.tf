@@ -1,14 +1,13 @@
-variable "aws_region" {}
-variable "key_name" {}
-variable "instance_role" {}
+variable "aws_region" {
+  default = "us-west-2"
+}
+variable "public_key" {}
 variable "service_name" {
-  default = "fakems"
+  default = "hit-counter"
 }
-variable "s3_code_bucketname" {
-  default = "node9-fakems-zip"
-}
+variable "s3_code_bucketname" {}
 
 variable "s3_code_keyname" {
-  default = "fakems.zip"
+  default = "code.zip"
 }
 

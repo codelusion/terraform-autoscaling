@@ -23,9 +23,6 @@ variable "launch_cfg_sg_id" {
 variable "launch_cfg_keypair_name" {
   description = "key pair name to use for ssh access"
 }
-variable "launch_instance_role" {
-  description = "instance role to assign"
-}
 variable "code_zipfile" {
   description = "S3 object key referring to zipped code"
 }
